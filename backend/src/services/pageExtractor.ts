@@ -99,12 +99,12 @@ export class PageExtractorService {
 
       // Mock permissions - simplified to avoid TypeScript issues
       const originalQuery = window.navigator.permissions.query;
-      window.navigator.permissions.query = (parameters) => {
+      window.navigator.permissions.query = ((parameters: PermissionDescriptor) => {
         if (parameters.name === 'notifications') {
-          return Promise.resolve({ state: 'granted' } as PermissionStatus);
+          return Promise.resolve({ state: 'granted' } as any);
         }
         return originalQuery(parameters);
-      };
+      }) as any;
 
       // Mock plugins
       Object.defineProperty(navigator, 'plugins', {
